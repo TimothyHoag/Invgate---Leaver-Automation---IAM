@@ -116,7 +116,7 @@ After the account is disabled, the workflow removes its group memberships (`Remo
 
 ### 6. Audit Trail via InvGate Comments
 
-Rather than creating a separate ticket, the workflow posts timestamped comments back to the same InvGate ticket that triggered it — one at intake, one after disable, one after group removal. This provides:
+Rather than creating a separate ticket, the workflow posts timestamped comments back to the same InvGate ticket that triggered it: one at intake, one after disable, one after group removal. This provides:
 
 - Operational visibility on the originating ticket
 - A service management trail without duplicate records
@@ -150,7 +150,7 @@ Group removal is still important, but it comes after disablement because the hig
 
 ### Why comment on the existing ticket instead of creating a new one?
 
-A technical action without a service record can be difficult to trace later. Commenting on the originating ticket keeps the full history — request, actions taken, and outcome — in one place instead of splitting it across records.
+A technical action without a service record can be difficult to trace later. Commenting on the originating ticket keeps the full history (request, actions taken, and outcome) in one place instead of splitting it across records.
 
 ### Why send Slack notifications?
 
@@ -162,4 +162,4 @@ Automation is more useful when people understand the control decisions behind it
 
 ## Setup
 
-Import the workflow JSON files from `workflows/` into n8n. None of the credentials, tenant URLs, or webhook secrets are committed to this repository — configure them as n8n credentials or environment-specific settings after import. Placeholder values in the JSON (e.g. `REPLACE_WITH_YOUR_CREDENTIAL_ID`, `REPLACE_WITH_YOUR_CREDENTIAL_NAME`, `YOUR_INVGATE_TENANT`) mark where this is required. On the InvGate side, the "Employee Termination" ticket type needs the custom fields above and an automation rule configured to call the n8n webhook on ticket creation.
+Import the workflow JSON files from `workflows/` into n8n. None of the credentials, tenant URLs, or webhook secrets are committed to this repository; configure them as n8n credentials or environment-specific settings after import. Placeholder values in the JSON (e.g. `REPLACE_WITH_YOUR_CREDENTIAL_ID`, `REPLACE_WITH_YOUR_CREDENTIAL_NAME`, `YOUR_INVGATE_TENANT`) mark where this is required. On the InvGate side, the "Employee Termination" ticket type needs the custom fields above and an automation rule configured to call the n8n webhook on ticket creation.
