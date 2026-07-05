@@ -40,13 +40,6 @@ This project also reflects the overlap between:
 - Demonstrate practical automation design, not just scripting
 - Document the reasoning behind the control flow
 
-## Workflows
-
-- **[workflows/jml-leaver-flow-v1.json](workflows/jml-leaver-flow-v1.json)** — the primary leaver/offboarding workflow.
-- **[workflows/jml-joiner-flow-v1.json](workflows/jml-joiner-flow-v1.json)** — a joiner/onboarding workflow draft using the same pattern.
-- **[workflows/jml-combined-flow-v1.json](workflows/jml-combined-flow-v1.json)** — both flows combined into a single export.
-- **[workflows/ad-ssh-test-workflow.json](workflows/ad-ssh-test-workflow.json)** — a minimal workflow for verifying SSH/Active Directory connectivity.
-
 ## Architecture
 
 ### High-Level Flow
@@ -150,7 +143,7 @@ Group removal is still important, but it comes after disablement because the hig
 
 ### Why comment on the existing ticket instead of creating a new one?
 
-A technical action without a service record can be difficult to trace later. Commenting on the originating ticket keeps the full history — request, actions taken, and outcome — in one place instead of splitting it across records.
+A technical action without a service record can be difficult to trace later. Commenting on the originating ticket keeps the full history request, actions taken, and outcome — in one place instead of splitting it across records.
 
 ### Why send Slack notifications?
 
@@ -160,6 +153,4 @@ Offboarding often involves multiple stakeholders. Slack adds visibility without 
 
 Automation is more useful when people understand the control decisions behind it. The workflow matters, but the design logic matters too.
 
-## Setup
 
-Import the workflow JSON files from `workflows/` into n8n. None of the credentials, tenant URLs, or webhook secrets are committed to this repository — configure them as n8n credentials or environment-specific settings after import. Placeholder values in the JSON (e.g. `REPLACE_WITH_YOUR_CREDENTIAL_ID`, `REPLACE_WITH_YOUR_CREDENTIAL_NAME`, `YOUR_INVGATE_TENANT`) mark where this is required. On the InvGate side, the Leaver catalog item needs the custom fields above and an automation rule configured to call the n8n webhook on ticket creation.
