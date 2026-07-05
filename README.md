@@ -42,16 +42,16 @@ This project also reflects the overlap between:
 
 ## Workflows
 
-- **[workflows/jml-leaver-flow-v1.json](workflows/jml-leaver-flow-v1.json)** — the primary leaver/offboarding workflow.
-- **[workflows/jml-joiner-flow-v1.json](workflows/jml-joiner-flow-v1.json)** — a joiner/onboarding workflow draft using the same pattern.
-- **[workflows/jml-combined-flow-v1.json](workflows/jml-combined-flow-v1.json)** — both flows combined into a single export.
-- **[workflows/ad-ssh-test-workflow.json](workflows/ad-ssh-test-workflow.json)** — a minimal workflow for verifying SSH/Active Directory connectivity.
+- **[workflows/jml-leaver-flow-v1.json](workflows/jml-leaver-flow-v1.json)**: the primary leaver/offboarding workflow.
+- **[workflows/jml-joiner-flow-v1.json](workflows/jml-joiner-flow-v1.json)**: a joiner/onboarding workflow draft using the same pattern.
+- **[workflows/jml-combined-flow-v1.json](workflows/jml-combined-flow-v1.json)**: both flows combined into a single export.
+- **[workflows/ad-ssh-test-workflow.json](workflows/ad-ssh-test-workflow.json)**: a minimal workflow for verifying SSH/Active Directory connectivity.
 
 ## Architecture
 
 ### High-Level Flow
 
-1. A requester (or HR) files a leaver request against the "Leaver" catalog item in InvGate.
+1. A requester (or HR) files a leaver request using the "Employee Termination" ticket type in InvGate.
 2. An InvGate automation rule fires on ticket creation and calls the n8n production webhook, passing the employee name, username, manager, last day, and the InvGate `request_id`.
 3. n8n's Webhook node receives the payload; `Set Leaver Data` extracts and maps the fields.
 4. n8n posts a "ticket received" comment back to the InvGate ticket, confirming automation has started.
@@ -63,7 +63,7 @@ This project also reflects the overlap between:
 10. The workflow records success, failure, or exception details.
 
 ```text
-InvGate: New request created (Leaver catalog item)
+InvGate: New request created (Employee Termination ticket type)
   -> Automation rule calls n8n webhook (request_id + employee fields)
   -> Webhook trigger -> Set Leaver Data
   -> Comment: Ticket Received
@@ -86,7 +86,7 @@ InvGate: New request created (Leaver catalog item)
 
 ### 1. Request Intake
 
-The process begins when a leaver request is filed against the Leaver catalog item in InvGate. Required fields are captured as InvGate custom fields on that catalog item:
+The process begins when a leaver request is filed using the "Employee Termination" ticket type in InvGate. Required fields are captured as InvGate custom fields on that ticket type:
 
 - Employee name
 - Username
@@ -96,7 +96,7 @@ The process begins when a leaver request is filed against the Leaver catalog ite
 
 ### 2. Trigger
 
-An InvGate automation rule (event: new request created, condition: Leaver catalog item) calls the n8n webhook via a "Call Web Service" action, authenticated with a shared header secret. This replaces manual form submission or a separate trigger step — the ticket itself is the trigger.
+An InvGate automation rule (event: new request created, condition: ticket type is "Employee Termination") calls the n8n webhook via a "Call Web Service" action, authenticated with a shared header secret. This replaces manual form submission or a separate trigger step: the ticket itself is the trigger.
 
 ### 3. Field Mapping
 
@@ -162,4 +162,4 @@ Automation is more useful when people understand the control decisions behind it
 
 ## Setup
 
-Import the workflow JSON files from `workflows/` into n8n. None of the credentials, tenant URLs, or webhook secrets are committed to this repository — configure them as n8n credentials or environment-specific settings after import. Placeholder values in the JSON (e.g. `REPLACE_WITH_YOUR_CREDENTIAL_ID`, `REPLACE_WITH_YOUR_CREDENTIAL_NAME`, `YOUR_INVGATE_TENANT`) mark where this is required. On the InvGate side, the Leaver catalog item needs the custom fields above and an automation rule configured to call the n8n webhook on ticket creation.
+Import the workflow JSON files from `workflows/` into n8n. None of the credentials, tenant URLs, or webhook secrets are committed to this repository — configure them as n8n credentials or environment-specific settings after import. Placeholder values in the JSON (e.g. `REPLACE_WITH_YOUR_CREDENTIAL_ID`, `REPLACE_WITH_YOUR_CREDENTIAL_NAME`, `YOUR_INVGATE_TENANT`) mark where this is required. On the InvGate side, the "Employee Termination" ticket type needs the custom fields above and an automation rule configured to call the n8n webhook on ticket creation.
